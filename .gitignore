@@ -1,0 +1,9 @@
+# vscode
+.vscode/
+
+# Compiled or temp
+*.o
+*.out
+*.log
+*.tmp
+*.swp
