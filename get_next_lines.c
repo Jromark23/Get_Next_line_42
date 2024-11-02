@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_lines.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joroman- <joroman-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:59:46 by joroman-          #+#    #+#             */
-/*   Updated: 2024/11/02 18:34:44 by joroman-         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:14:11 by joroman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,49 +45,38 @@ char	*update_content(char *content)
 	return (new_content);
 }
 
-int	read_line(int fd, char **content, char *buffer)
-{
-	char	*temp;
-	int		bytes;
-
-	while (!ft_strchr(*content, '\n'))
-	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes == -1)
-		{
-			free(*content);
-			*content = NULL;
-			return (-1);
-		}
-		else if (bytes == 0)
-			return (0);
-		buffer[bytes] = '\0';
-		temp = ft_strjoin(*content, buffer);
-		if (*content)
-			free(*content);
-		*content = temp;
-	}
-	return (1);
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*content;
 	char		*buffer;
+	char		*temp;
 	char		*line;
-	int			status;
+	int			bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
+	if (fd < 0 || BUFFER_SIZE <= 0 || !buffer)
 		return (NULL);
 	if (!content)
 		content = ft_strdup("");
-	status = read_line(fd, &content, buffer);
+	while (!ft_strchr(content, '\n'))
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1)
+		{
+			free(buffer);
+			free(content);
+			content = NULL;
+			return (NULL);
+		}
+		else if (bytes == 0)
+			break ;
+		buffer[bytes] = '\0';
+		temp = ft_strjoin(content, buffer);
+		if (content)
+			free(content);
+		content = temp;
+	}
 	free(buffer);
-	if (status == -1)
-		return (NULL);
 	line = extract_line(content);
 	content = update_content(content);
 	return (line);

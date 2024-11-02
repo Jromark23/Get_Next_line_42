@@ -6,7 +6,7 @@
 /*   By: joroman- <joroman-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 18:00:00 by joroman-          #+#    #+#             */
-/*   Updated: 2024/10/29 13:53:54 by joroman-         ###   ########.fr       */
+/*   Updated: 2024/11/02 11:10:54 by joroman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	result[i + j] = '\0';
 	return (result);
 }
-// Duplicates a string allocating new memory and returns a pointer to the new one.
+
+// Duplicates a string allocating new memory and returns a pointer to the new.
 char	*ft_strdup(const char *s)
 {
 	size_t		len;
